@@ -69,11 +69,19 @@ class AttributeMap
     }
 
     /**
+     * Function to remove unallowed characters
+     */
+    public function base64url_encode($data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    /**
      * Get ID from profile.
      */
     public function id(array $profile): ?string
     {
-        return self::get($this->_id, $profile);
+        return self::base64url_encode(self::get($this->_id, $profile));
     }
 
     /**
