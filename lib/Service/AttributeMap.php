@@ -10,7 +10,7 @@ class AttributeMap
     private string $_id;
 
     /** Full display name of user */
-    private string $_name;
+    private array $_name;
 
     /** Email address (no overwrite if null) */
     private string $_mail;
@@ -89,7 +89,7 @@ class AttributeMap
      */
     public function name(array $profile): ?string
     {
-        return self::get($this->_name, $profile);
+        return self::getFullDisplayName($this->_name, $profile);
     }
 
     /**
@@ -201,5 +201,14 @@ class AttributeMap
         }
 
         return null;
+    }
+
+    private static function getFullDisplayName(array|string $attr, array $profile): string
+    {
+        $nameArr = array();
+        foreach ($attr as $value) {
+            $nameArr[] = self::get($value, $profile);
+        }
+        return \implode(' ', $nameArr);
     }
 }
