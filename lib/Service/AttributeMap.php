@@ -15,6 +15,9 @@ class AttributeMap
     /** Email address (no overwrite if null) */
     private string $_mail;
 
+    /** Birthdate */
+    private string $_birthdate;
+
     /** Usage quota for user */
     private string $_quota;
 
@@ -43,6 +46,7 @@ class AttributeMap
             'id' => 'sub',
             'name' => 'name',
             'mail' => 'email',
+            'birthdate' => 'birthdate',
             'quota' => 'ownCloudQuota',
             'home' => 'homeDirectory',
             'ldap_uid' => 'uid',
@@ -55,6 +59,7 @@ class AttributeMap
         $this->_id = $attr['id'];
         $this->_name = $attr['name'];
         $this->_mail = $attr['mail'];
+        $this->_birthdate = $attr['birthdate'];
         $this->_quota = $attr['quota'];
         $this->_home = $attr['home'];
         $this->_ldapUid = $attr['ldap_uid'];
@@ -69,7 +74,7 @@ class AttributeMap
     }
 
     /**
-     * Function to remove unallowed characters
+     * Function to remove unallowed characters.
      */
     public function base64url_encode($data): string
     {
@@ -98,6 +103,14 @@ class AttributeMap
     public function mail(array $profile): ?string
     {
         return self::get($this->_mail, $profile);
+    }
+
+    /**
+     * Get birthdate from profile.
+     */
+    public function birthdate(array $profile): ?string
+    {
+        return self::get($this->_birthdate, $profile);
     }
 
     /**
