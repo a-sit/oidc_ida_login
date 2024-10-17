@@ -9,6 +9,9 @@ class AttributeMap
     /** Unique identifier for username */
     private string $_id;
 
+    /** Special characters handling */
+    private string $_specialCharsAllowed;
+
     /** Full display name of user */
     private array $_name;
 
@@ -59,17 +62,25 @@ class AttributeMap
         $this->_id = $attr['id'];
         $this->_name = $attr['name'];
         $this->_mail = $attr['mail'];
-        $this->_birthdate = $attr['birthdate'];
         $this->_quota = $attr['quota'];
         $this->_home = $attr['home'];
         $this->_ldapUid = $attr['ldap_uid'];
         $this->_groups = $attr['groups'];
         $this->_login_filter = $attr['login_filter'];
         $this->_photoUrl = $attr['photoURL'];
+        $this->_specialCharsAllowed = $attr['allow_special_chars'];
 
         // Optional attributes
         if (\array_key_exists('is_admin', $attr)) {
             $this->_isAdmin = $attr['is_admin'];
+        }
+
+        if (\array_key_exists('birthdate', $attr)) {
+            $this->_birthdate = $attr['birthdate'];
+        }
+
+        if (\array_key_exists('allow_special_chars', $attr)) {
+            $this->_specialCharsAllowed = $attr['allow_special_chars'];
         }
     }
 
@@ -86,7 +97,11 @@ class AttributeMap
      */
     public function id(array $profile): ?string
     {
-        return self::base64url_encode(self::get($this->_id, $profile));
+        if ($this->_specialCharsAllowed === 'false') {
+            return self::base64url_encode(self::get($this->_id, $profile));
+        } else {
+            return self::get($this->_id, $profile);
+        }
     }
 
     /**
