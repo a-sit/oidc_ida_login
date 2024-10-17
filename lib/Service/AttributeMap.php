@@ -9,8 +9,8 @@ class AttributeMap
     /** Unique identifier for username */
     private string $_id;
 
-    /** Special characters handling */
-    private string $_specialCharsAllowed;
+    /** Special characters handling (optional) */
+    private ?string $_specialCharsAllowed = null;
 
     /** Name of user, could be family name or given name */
     private string $_name;
