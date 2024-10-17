@@ -12,14 +12,17 @@ class AttributeMap
     /** Special characters handling */
     private string $_specialCharsAllowed;
 
-    /** Full display name of user */
-    private array $_name;
+    /** Name of user, could be family name or given name */
+    private string $_name;
+
+    /** Full name of user (optional) */
+    private ?array $_full_name = null;
 
     /** Email address (no overwrite if null) */
     private string $_mail;
 
     /** Birthdate */
-    private string $_birthdate;
+    private ?string $_birthdate = null;
 
     /** Usage quota for user */
     private string $_quota;
@@ -60,7 +63,6 @@ class AttributeMap
         $attr = array_merge($defattr, $confattr);
 
         $this->_id = $attr['id'];
-        $this->_name = $attr['name'];
         $this->_mail = $attr['mail'];
         $this->_quota = $attr['quota'];
         $this->_home = $attr['home'];
@@ -68,6 +70,12 @@ class AttributeMap
         $this->_groups = $attr['groups'];
         $this->_login_filter = $attr['login_filter'];
         $this->_photoUrl = $attr['photoURL'];
+
+        if (is_array($attr['name'])) {
+            $this->_full_name = $attr['name'];
+        } else {
+            $this->_name = $attr['name'];
+        }
 
         // Optional attributes
         if (\array_key_exists('is_admin', $attr)) {
@@ -108,7 +116,12 @@ class AttributeMap
      */
     public function name(array $profile): ?string
     {
-        return self::getFullDisplayName($this->_name, $profile);
+        if (null !== $this->_full_name) {
+            return self::getFullDisplayName($this->_full_name, $profile);
+        } else {
+            return self::get($this->_name, $profile);
+        }
+
     }
 
     /**
