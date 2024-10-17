@@ -68,7 +68,6 @@ class AttributeMap
         $this->_groups = $attr['groups'];
         $this->_login_filter = $attr['login_filter'];
         $this->_photoUrl = $attr['photoURL'];
-        $this->_specialCharsAllowed = $attr['allow_special_chars'];
 
         // Optional attributes
         if (\array_key_exists('is_admin', $attr)) {
