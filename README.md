@@ -11,9 +11,9 @@ Provides user creation and login via one single OpenID Connect provider. Even th
 - Automatic redirection from the nextcloud login page to the Identity Provider login page
 - WebDAV endpoints `Bearer` and `Basic` authentication
 - supports login via ID Austria:
-        - removal of special characters in UID
-        - introduce mapping for birthdate
-        - mapping of multiple names to a single displayname in nextcloud
+	- removal of special characters in UID
+	- introduce mapping for birthdate
+	- mapping of multiple names to a single displayname in nextcloud
 
 ## Config
 
@@ -79,7 +79,7 @@ $CONFIG = array (
     //                      This will only be effective if oidc_login_update_avatar is enabled.
     //   * is_admin:     If this value is truthy, the user is added to the admin group (optional)
     //   * birthdate:    Since attribute 'birthdate' is supported from NC version 30 onwards, this attribute
-    //                   can be addressed also via OIDC Login.
+    //                   can be mapped too.
     //
     // The attributes in the OIDC response are flattened by adding the nested
     // array key as the prefix and an underscore. Thus,
@@ -113,15 +113,11 @@ $CONFIG = array (
     // https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
     //
     // note: on Keycloak, OIDC name claim = "${given_name} ${family_name}" or one of them if any is missing
-    // note: name can be a string or an array of strings, e.g. name => array('given_name', 'family_name')
+    // note: for ID Austria, OIDC name claim = array('family_name', 'given_name')
     //
     'oidc_login_attributes' => array (
         'id' => 'sub',
         'name' => 'name',
-        //or
-        'name' => array (
-        'family_name', 'given_name'
-        ),
         'mail' => 'email',
         'birthdate' => 'birthdate',
         'quota' => 'ownCloudQuota',
