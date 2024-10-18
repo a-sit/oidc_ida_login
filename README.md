@@ -11,9 +11,9 @@ Provides user creation and login via one single OpenID Connect provider. Even th
 - Automatic redirection from the nextcloud login page to the Identity Provider login page
 - WebDAV endpoints `Bearer` and `Basic` authentication
 - supports login via ID Austria:
-	- removal of special characters in UID
-        - mapping of multiple names to a single displayname in nextcloud
+        - removal of special characters in UID
         - introduce mapping for birthdate
+        - mapping of multiple names to a single displayname in nextcloud
 
 ## Config
 
@@ -62,7 +62,7 @@ $CONFIG = array (
     // Attribute map for OIDC response. Available keys are:
     //   * id:           Unique identifier for username
     //   * name:         Full name, can be a string or an array of strings (use array in case family_name
-                         and given_name are sent seperately by IdP).
+    //                   and given_name are received seperately from IdP).
     //                      If set to null, existing display name won't be overwritten 
     //   * mail:         Email address
     //                      If set to null, existing email address won't be overwritten
@@ -78,8 +78,8 @@ $CONFIG = array (
     //                      at user login. This may lead to security issues. Use with care.
     //                      This will only be effective if oidc_login_update_avatar is enabled.
     //   * is_admin:     If this value is truthy, the user is added to the admin group (optional)
-    //   * birthdate:    Since attribute birthdate is supported with NC30, this attribute can be addressed also
-                         via OIDC Login.
+    //   * birthdate:    Since attribute 'birthdate' is supported from NC version 30 onwards, this attribute
+    //                   can be addressed also via OIDC Login.
     //
     // The attributes in the OIDC response are flattened by adding the nested
     // array key as the prefix and an underscore. Thus,
@@ -113,14 +113,14 @@ $CONFIG = array (
     // https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
     //
     // note: on Keycloak, OIDC name claim = "${given_name} ${family_name}" or one of them if any is missing
-    // note: name can be a string or an array of strings, e.g. name => array(given_name, family_name)
+    // note: name can be a string or an array of strings, e.g. name => array('given_name', 'family_name')
     //
     'oidc_login_attributes' => array (
         'id' => 'sub',
         'name' => 'name',
         //or
         'name' => array (
-        family_name, given_name
+        'family_name', 'given_name'
         ),
         'mail' => 'email',
         'birthdate' => 'birthdate',
