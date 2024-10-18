@@ -39,7 +39,7 @@ class OIDCLoginOption implements IAlternativeLogin
 
     public static function getLoginLink(IRequest $request, IURLGenerator $url): string
     {
-        return $url->linkToRoute('oidc_login.login.oidc', [
+        return $url->linkToRoute('nextcloud-oidc-login.login.oidc', [
             'login_redirect_url' => $request->getParam('redirect_url'),
         ]);
     }
