@@ -24,7 +24,7 @@ Provides user creation and login via one single OpenID Connect provider. Extensi
     <version>3.2.0</version>
     <licence>agpl</licence>
     <author>asit</author>
-    <namespace>OIDCLogin_IDA</namespace>
+    <namespace>OIDCLogin</namespace>
     <category>integration</category>
     <category>social</category>
     <website>https://github.com/a-sit/nextcloud-oidc-login/</website>
