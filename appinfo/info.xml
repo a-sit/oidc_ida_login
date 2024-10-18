@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>nextcloud_oidc_login</id>
+    <id>nextcloud-oidc-login</id>
     <name>OpenID Connect Login IDA</name>
     <summary>Login with single OpenID Connect provider for ID Austria</summary>
 <description><![CDATA[
