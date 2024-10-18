@@ -100,7 +100,7 @@ class AttributeMap
      */
     public function id(array $profile): ?string
     {
-        if ($this->config->getSystemValue('oidc_login_allow_special_chars') === false) {
+        if ($this->config->getSystemValue('oidc_login_allow_special_characters', false) === true) {
             return self::base64url_encode(self::get($this->_id, $profile));
         } else {
             return self::get($this->_id, $profile);
