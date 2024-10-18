@@ -9,9 +9,6 @@ class AttributeMap
     /** Unique identifier for username */
     private string $_id;
 
-    /** Special characters handling (optional) */
-    private ?string $_specialCharsAllowed = null;
-
     /** Name of user, could be family name or given name */
     private string $_name;
 
@@ -21,7 +18,7 @@ class AttributeMap
     /** Email address (no overwrite if null) */
     private string $_mail;
 
-    /** Birthdate */
+    /** Birthdate (optional) */
     private ?string $_birthdate = null;
 
     /** Usage quota for user */
@@ -45,8 +42,11 @@ class AttributeMap
     /** If this value is truthy, the user is added to the admin group (optional) */
     private ?string $_isAdmin = null;
 
+    private IConfig $config;
+
     public function __construct(IConfig $config)
     {
+        $this->config = $config;
         $confattr = $config->getSystemValue('oidc_login_attributes', []);
         $defattr = [
             'id' => 'sub',
@@ -85,10 +85,6 @@ class AttributeMap
         if (\array_key_exists('birthdate', $attr)) {
             $this->_birthdate = $attr['birthdate'];
         }
-
-        if (\array_key_exists('allow_special_chars', $attr)) {
-            $this->_specialCharsAllowed = $attr['allow_special_chars'];
-        }
     }
 
     /**
@@ -104,7 +100,7 @@ class AttributeMap
      */
     public function id(array $profile): ?string
     {
-        if ($this->_specialCharsAllowed === 'false') {
+        if ($this->config->getSystemValue('oidc_login_allow_special_chars') === false) {
             return self::base64url_encode(self::get($this->_id, $profile));
         } else {
             return self::get($this->_id, $profile);
