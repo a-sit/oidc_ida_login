@@ -1,4 +1,4 @@
-# Nextcloud OIDC Login
+# Nextcloud OIDC Login - extension for ID Austria
 
 Provides user creation and login via one single OpenID Connect provider. Even though this is a fork of [nextcloud-social-login](https://github.com/zorn-v/nextcloud-social-login), it fundamentally differs in two ways - aims for simplistic, single provider login (and hence is very minimalistic), and it supports having LDAP as the primary user backend. This way, you can use OpenID Connect to login to Nextcloud while maintaining an LDAP backend with attributes with the LDAP plugin.
 
@@ -10,6 +10,10 @@ Provides user creation and login via one single OpenID Connect provider. Even th
 - Group creation
 - Automatic redirection from the nextcloud login page to the Identity Provider login page
 - WebDAV endpoints `Bearer` and `Basic` authentication
+- supports login via ID Austria:
+	- removal of special characters in UID
+        - mapping of multiple names to a single displayname in nextcloud
+        - introduce mapping for birthdate
 
 ## Config
 
@@ -57,8 +61,9 @@ $CONFIG = array (
 
     // Attribute map for OIDC response. Available keys are:
     //   * id:           Unique identifier for username
-    //   * name:         Full name
-    //                      If set to null, existing display name won't be overwritten
+    //   * name:         Full name, can be a string or an array of strings (use array in case family_name
+                         and given_name are sent seperately by IdP).
+    //                      If set to null, existing display name won't be overwritten 
     //   * mail:         Email address
     //                      If set to null, existing email address won't be overwritten
     //   * quota:        Nextcloud storage quota
@@ -73,6 +78,8 @@ $CONFIG = array (
     //                      at user login. This may lead to security issues. Use with care.
     //                      This will only be effective if oidc_login_update_avatar is enabled.
     //   * is_admin:     If this value is truthy, the user is added to the admin group (optional)
+    //   * birthdate:    Since attribute birthdate is supported with NC30, this attribute can be addressed also
+                         via OIDC Login.
     //
     // The attributes in the OIDC response are flattened by adding the nested
     // array key as the prefix and an underscore. Thus,
@@ -106,11 +113,17 @@ $CONFIG = array (
     // https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
     //
     // note: on Keycloak, OIDC name claim = "${given_name} ${family_name}" or one of them if any is missing
+    // note: name can be a string or an array of strings, e.g. name => array(given_name, family_name)
     //
     'oidc_login_attributes' => array (
         'id' => 'sub',
         'name' => 'name',
+        //or
+        'name' => array (
+        family_name, given_name
+        ),
         'mail' => 'email',
+        'birthdate' => 'birthdate',
         'quota' => 'ownCloudQuota',
         'home' => 'homeDirectory',
         'ldap_uid' => 'uid',
@@ -192,6 +205,9 @@ $CONFIG = array (
 
     // Enable use of WebDAV via OIDC bearer token.
     'oidc_login_webdav_enabled' => false,
+
+    // Enable removal of special characters in UID.
+    'oidc_login_allow_special_characters' => false,
 
     // Enable authentication with user/password for DAV clients that do not
     // support token authentication (e.g. DAVx⁵)
