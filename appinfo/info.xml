@@ -32,6 +32,6 @@ Provides user creation and login via one single OpenID Connect provider. Extensi
     <repository>https://github.com/a-sit/nextcloud-oidc-login/tree/feature/ida-login</repository>
     <screenshot></screenshot>
     <dependencies>
-        <nextcloud min-version="26" max-version="30" />
+        <nextcloud min-version="30" max-version="30" />
     </dependencies>
 </info>
