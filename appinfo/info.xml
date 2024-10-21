@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
-    <id>oidc_login</id>
-    <name>OpenID Connect Login</name>
-    <summary>Login with single OpenID Connect provider</summary>
+    <id>oidc_ida_login</id>
+    <name>OpenID Connect Login IDA</name>
+    <summary>Login with single OpenID Connect provider for ID Austria</summary>
 <description><![CDATA[
 # OpenID Connect Login
 
-Provides user creation and login via one single OpenID Connect provider. Even though this is a fork of [nextcloud-social-login](https://github.com/zorn-v/nextcloud-social-login), it fundamentally differs in two ways - aims for simplistic, single provider login (and hence is very minimalistic), and it supports having LDAP as the primary user backend. This way, you can use OpenID Connect to login to Nextcloud while maintaining an LDAP backend with attributes with the LDAP plugin.
+Provides user creation and login via one single OpenID Connect provider. Extension for ID Austria. Even though this is a fork of [nextcloud-social-login](https://github.com/zorn-v/nextcloud-social-login), it fundamentally differs in two ways - aims for simplistic, single provider login (and hence is very minimalistic), and it supports having LDAP as the primary user backend. This way, you can use OpenID Connect to login to Nextcloud while maintaining an LDAP backend with attributes with the LDAP plugin.
 
 ### Features
 
@@ -20,14 +20,13 @@ Provides user creation and login via one single OpenID Connect provider. Even th
 ]]></description>
     <version>3.2.2</version>
     <licence>agpl</licence>
-    <author>pulsejet</author>
+    <author>asit</author>
     <namespace>OIDCLogin</namespace>
     <category>integration</category>
     <category>social</category>
-    <website>https://github.com/pulsejet/nextcloud-single-openid-connect</website>
-    <bugs>https://github.com/pulsejet/nextcloud-single-openid-connect/issues</bugs>
-    <repository>https://github.com/pulsejet/nextcloud-single-openid-connect</repository>
-    <screenshot>https://raw.githubusercontent.com/pulsejet/nextcloud-single-openid-connect/master/appinfo/screenshot.png</screenshot>
+    <website>https://github.com/a-sit/nextcloud-oidc-login/</website>
+    <bugs>https://github.com/a-sit/nextcloud-oidc-login/issues</bugs>
+    <repository>https://github.com/a-sit/nextcloud-oidc-login/tree/feature/oidc-ida-login</repository>
     <dependencies>
         <nextcloud min-version="29" max-version="31" />
     </dependencies>

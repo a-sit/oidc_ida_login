@@ -27,7 +27,7 @@ class Application extends App implements IBootstrap
     protected IL10N $l;
     protected IConfig $config;
 
-    private $appName = 'oidc_login';
+    private $appName = 'oidc_ida_login';
 
     public function __construct()
     {
