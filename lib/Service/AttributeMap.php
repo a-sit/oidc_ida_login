@@ -88,16 +88,6 @@ class AttributeMap
     }
 
     /**
-     * Function to remove unallowed characters.
-     *
-     * @param mixed $data
-     */
-    private static function base64url_encode($data): string
-    {
-        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-    }
-
-    /**
      * Get ID from profile.
      */
     public function id(array $profile): ?string
@@ -229,6 +219,16 @@ class AttributeMap
     public function managesAdmin(): bool
     {
         return null !== $this->_isAdmin;
+    }
+
+    /**
+     * Function to remove unallowed characters.
+     *
+     * @param mixed $data
+     */
+    private static function base64url_encode($data): string
+    {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
     private static function get(string $attr, array $profile)
