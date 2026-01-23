@@ -92,7 +92,7 @@ class AttributeMap
      *
      * @param mixed $data
      */
-    public function base64url_encode($data): string
+    private static function base64url_encode($data): string
     {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
@@ -102,7 +102,7 @@ class AttributeMap
      */
     public function id(array $profile): ?string
     {
-        if (true === $this->config->getSystemValue('oidc_login_allow_special_characters', false)) {
+        if (true === $this->config->getSystemValue('oidc_login_remove_special_characters', false)) {
             return self::base64url_encode(self::get($this->_id, $profile));
         }
 

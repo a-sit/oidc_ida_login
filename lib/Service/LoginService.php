@@ -375,9 +375,20 @@ class LoginService
 
         // Set Birthdate
         if (null !== ($birthdate = $this->attr->birthdate($profile))) {
-            $account = $this->accountManager->getAccount($user);
-            $account->setProperty(IAccountManager::PROPERTY_BIRTHDATE, $birthdate, IAccountManager::SCOPE_LOCAL, IAccountManager::NOT_VERIFIED);
-            $this->accountManager->updateAccount($account);
+            $validateBirthdate = $this->validateBirthdate($birthdate);
+            if ($validateBirthdate != null) {
+                $account = $this->accountManager->getAccount($user);
+                $account->setProperty(
+                    IAccountManager::PROPERTY_BIRTHDATE,
+                    $validateBirthdate,
+                    IAccountManager::SCOPE_LOCAL,
+                    IAccountManager::NOT_VERIFIED
+                );
+                $this->accountManager->updateAccount($account);
+            } else {
+                $this->logger->debug("Skipping invalid birthdate for user: {$user->getUID()}");    
+            }
+            
         }
 
         // Set quota
@@ -544,4 +555,31 @@ class LoginService
 
         return $result;
     }
+
+    /**
+     * Validate and normalize birthdate according to OIDC spec.
+     * Only accepts full dates in YYYY-MM-DD format.
+     */
+     private function validateBirthdate(string $birthdate): ?string
+     {
+         $birthdate = trim($birthdate);
+         
+         if (empty($birthdate)) {
+             return null;
+         }
+     
+         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $birthdate)) {
+             $this->logger->debug("Birthdate must be in YYYY-MM-DD format, got: {$birthdate}");
+             return null;
+         }
+     
+         $date = \DateTime::createFromFormat('Y-m-d', $birthdate);
+         if (!$date || $date->format('Y-m-d') !== $birthdate) {
+             $this->logger->debug("Invalid birthdate value: {$birthdate}");
+             return null;
+         }
+     
+         return $birthdate;
+     
+     }
 }
